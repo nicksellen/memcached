@@ -59,8 +59,8 @@ if !ENV["EXTERNAL_LIB"]
     system("cp -f libmemcached.a libmemcached_gem.a") 
     system("cp -f libmemcached.la libmemcached_gem.la") 
   end
-  $LIBS << " -lnsl -lsocket" if SOLARIS_32
-  $LIBS << " -lposix4 -lmemcached"
+  $LIBS << " -lnsl -lsocket -lposix4" if SOLARIS_32
+  $LIBS << " -lmemcached"
 end
 
 if ENV['SWIG']
