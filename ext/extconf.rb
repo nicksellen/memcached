@@ -15,6 +15,7 @@ end
 
 $CFLAGS = "#{RbConfig::CONFIG['CFLAGS']} #{$CFLAGS}".gsub("$(cflags)", "")
 $CFLAGS << " -std=gnu99" if SOLARIS_32
+$EXTRA_CONF << " --disable-64bit" if SOLARIS_32
 $LDFLAGS = "#{RbConfig::CONFIG['LDFLAGS']} #{$LDFLAGS}".gsub("$(ldflags)", "")
 $CXXFLAGS = " -std=gnu++98"
 $CPPFLAGS = $ARCH_FLAG = $DLDFLAGS = ""
@@ -41,7 +42,7 @@ if !ENV["EXTERNAL_LIB"]
       raise "'#{cmd}' failed" unless system(cmd)
 
       Dir.chdir(BUNDLE_PATH) do        
-        puts(cmd = "env CFLAGS='-fPIC #{$CFLAGS}' LDFLAGS='-fPIC #{$LDFLAGS}' ./configure --prefix=#{HERE} --disable-64bit --without-memcached --disable-shared --disable-utils --disable-dependency-tracking #{$EXTRA_CONF} 2>&1")
+        puts(cmd = "env CFLAGS='-fPIC #{$CFLAGS}' LDFLAGS='-fPIC #{$LDFLAGS}' ./configure --prefix=#{HERE} --without-memcached --disable-shared --disable-utils --disable-dependency-tracking #{$EXTRA_CONF} 2>&1")
         
         raise "'#{cmd}' failed" unless system(cmd)
         puts(cmd = "make CXXFLAGS='#{$CXXFLAGS}' || true 2>&1")
